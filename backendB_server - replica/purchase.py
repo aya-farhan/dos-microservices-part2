@@ -60,4 +60,4 @@ def index(book_id):
     else:
         order_completed = False
         add_order_to_db(book_id)
-        return jsonify({'reulst -from first replica': 'this book is no longer available in the store'})
+        return jsonify({'reulst - from first replica': 'this book is no longer available in the store'})
