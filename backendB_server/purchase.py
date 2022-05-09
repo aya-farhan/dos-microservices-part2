@@ -42,8 +42,10 @@ def index(book_id):
         update_query = requests.put(catalog_server_ip+'/update/'+str(book_id)+'/amount_of_items/'+str(-1))
         if(update_query.status_code==200):
             order_completed=True
-            update_query = requests.put(replica_catalog_server_ip+'/update/'+str(book_id)+'/amount_of_items/'+str(-1))
+            # to satisfy the consistency requirement
+            requests.put(replica_catalog_server_ip+'/update/'+str(book_id)+'/amount_of_items/'+str(-1))
             add_order_to_db(book_id)
+            # invlidate an item from cache when a purchase occures because its info and data changed  
             requests.put(front_server_ip+'/invalidate/info/'+str(book_id))
             
             return jsonify({'result':'your purchase done successfully -from original server'})
