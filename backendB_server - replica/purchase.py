@@ -10,6 +10,7 @@ app = Flask(__name__)
 # this micro service responsibility is to maintain purchases and deliver them if items are found by quering
 # catalog_server
 
+# ip's of interconnected servers
 catalog_server_ip = "http://192.168.1.8:5001"
 replica_catalog_server_ip = "http://192.168.1.10:5001"
 front_server_ip = "http://192.168.1.4:5000"
@@ -44,6 +45,7 @@ def index(book_id):
         update_query = requests.put(replica_catalog_server_ip+'/update/' + str(book_id) + '/amount_of_items/' + str(-1))
         if update_query.status_code == 200:
             order_completed = True
+            # to satisfy the consistency requirement 
             requests.put(catalog_server_ip+'/update/' + str(book_id) + '/amount_of_items/' + str(-1))
             add_order_to_db(book_id)
             #invalidate the cache record of this item in the front server
