@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS orders;
+
+CREATE TABLE orders (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    book_id text NOT NULL
+
+); 
